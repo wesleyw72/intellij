@@ -51,6 +51,15 @@ public interface BuildResultHelper extends AutoCloseable {
   BuildFlags getBlazeFlags(Optional<String> completedBuildId) throws GetFlagsException;
 
   /**
+   * Collect stderr console output from build event. Return a list of error message. This function
+   * is designed for remote build which does not have local console output. Local build should not
+   * use this since {@link ExternalTask} provide stderr handler.
+   */
+  default ImmutableList<String> getStderr(Optional<String> completedBuildId) {
+    return ImmutableList.of();
+  }
+
+  /**
    * Parses the BEP output data to collect all build flags used. Return all flags that pass filters
    */
   default BuildFlags getBlazeFlags() throws GetFlagsException {
